@@ -5,6 +5,7 @@ import { Image, ScrollView, StyleSheet, View } from "react-native";
 import { Button, Chip, HelperText, SegmentedButtons, Text, TextInput } from "react-native-paper";
 import { useMovimientos } from "../../context/MovimientosContext";
 import categorias from "../../data/categorias.json";
+import { fechaDeHoy } from "../../utils/fechas";
 
 export default function Agregar() {
     const { agregarMovimiento } = useMovimientos();
@@ -59,7 +60,7 @@ export default function Agregar() {
             categoria,
             establecimiento: establecimiento || categoria,
             cantidad: numero,
-            fecha: new Date().toISOString().slice(0, 10),
+            fecha: fechaDeHoy(),
             ticket,
         });
 
