@@ -2,16 +2,14 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { Card, ProgressBar, Text } from "react-native-paper";
 import TotalCard from "../../components/TotalCard";
 import { useMovimientos } from "../../context/MovimientosContext";
+import { colores } from "../../constants/colores";
 
-// Suma las cantidades de un tipo agrupadas por categoría:
-// [{ categoria: "Comida", total: 95, porcentaje: 0.09 }, ...]
-function totalesPorCategoria(movimientos, tipo) {
-    const delTipo = movimientos.filter((m) => m.tipo === tipo);
-    const total = delTipo.reduce((suma, m) => suma + m.cantidad, 0);
+function totalesPorCategoria(movimientos, tipo, total) {
+    const delTipo = movimientos.filter(m => m.tipo === tipo);
 
     const grupos = [];
-    delTipo.forEach((m) => {
-        const grupo = grupos.find((g) => g.categoria === m.categoria);
+    delTipo.forEach(m => {
+        const grupo = grupos.find(g => g.categoria === m.categoria);
         if (grupo) {
             grupo.total += m.cantidad;
         } else {
@@ -19,9 +17,7 @@ function totalesPorCategoria(movimientos, tipo) {
         }
     });
 
-    return grupos
-        .map((g) => ({ ...g, porcentaje: total > 0 ? g.total / total : 0 }))
-        .sort((a, b) => b.total - a.total);
+    return grupos.map(g => ({ ...g, porcentaje: g.total / total })).sort((a, b) => b.total - a.total);
 }
 
 function Desglose({ titulo, total, grupos, color }) {
@@ -30,7 +26,7 @@ function Desglose({ titulo, total, grupos, color }) {
             <Card.Title title={titulo} subtitle={`Total: $${total.toLocaleString("es-MX")}`} />
             <Card.Content>
                 {grupos.length === 0 && <Text>Sin movimientos.</Text>}
-                {grupos.map((g) => (
+                {grupos.map(g => (
                     <View key={g.categoria} style={styles.renglon}>
                         <View style={styles.textos}>
                             <Text>{g.categoria}</Text>
@@ -47,20 +43,17 @@ function Desglose({ titulo, total, grupos, color }) {
 }
 
 export default function Resumen() {
-    const { movimientos } = useMovimientos();
+    const { movimientos, totalIngresos, totalGastos, balance } = useMovimientos();
 
-    const gastos = totalesPorCategoria(movimientos, "gasto");
-    const ingresos = totalesPorCategoria(movimientos, "ingreso");
-    const totalGastos = gastos.reduce((suma, g) => suma + g.total, 0);
-    const totalIngresos = ingresos.reduce((suma, g) => suma + g.total, 0);
-    const balance = totalIngresos - totalGastos;
+    const gastos = totalesPorCategoria(movimientos, "gasto", totalGastos);
+    const ingresos = totalesPorCategoria(movimientos, "ingreso", totalIngresos);
 
     return (
         <ScrollView style={styles.container} contentContainerStyle={styles.contenido}>
-            <Desglose titulo="Total gastado" total={totalGastos} grupos={gastos} color="#C62828" />
-            <Desglose titulo="Total ingresos" total={totalIngresos} grupos={ingresos} color="#2E7D32" />
+            <Desglose titulo="Total gastado" total={totalGastos} grupos={gastos} color={colores.gasto} />
+            <Desglose titulo="Total ingresos" total={totalIngresos} grupos={ingresos} color={colores.ingreso} />
             <View style={styles.fila}>
-                <TotalCard titulo="Balance" cantidad={balance} color={balance >= 0 ? "#2E7D32" : "#C62828"} />
+                <TotalCard titulo="Balance" cantidad={balance} color={balance >= 0 ? colores.ingreso : colores.gasto} />
             </View>
         </ScrollView>
     );
@@ -69,7 +62,7 @@ export default function Resumen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#F7F5FA",
+        backgroundColor: colores.fondo,
     },
     contenido: {
         padding: 16,

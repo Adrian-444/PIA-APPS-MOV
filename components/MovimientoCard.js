@@ -1,11 +1,12 @@
 import { StyleSheet } from "react-native";
 import { Avatar, Card, Text } from "react-native-paper";
 import categorias from "../data/categorias.json";
+import { colores } from "../constants/colores";
 
 export default function MovimientoCard({ movimiento }) {
     const esIngreso = movimiento.tipo === "ingreso";
     const categoria = categorias[movimiento.tipo].find((c) => c.nombre === movimiento.categoria);
-    const color = esIngreso ? "#2E7D32" : "#C62828";
+    const color = esIngreso ? colores.ingreso : colores.gasto;
 
     return (
         <Card style={styles.card} mode="outlined">

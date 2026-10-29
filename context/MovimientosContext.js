@@ -1,7 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import movimientosIniciales from "../data/movimientos.json";
 
-// el contexto permite que todas las pantallas lean y modifiquen la misma lista de movimientos
 const MovimientosContext = createContext();
 
 export function MovimientosProvider({ children }) {
@@ -12,8 +11,14 @@ export function MovimientosProvider({ children }) {
         setMovimientos([nuevo, ...movimientos]);
     };
 
+    const totalIngresos = movimientos.filter(m => m.tipo === "ingreso").reduce((suma, m) => suma + m.cantidad, 0);
+    const totalGastos = movimientos.filter(m => m.tipo === "gasto").reduce((suma, m) => suma + m.cantidad, 0);
+    const balance = totalIngresos - totalGastos;
+
     return (
-        <MovimientosContext.Provider value={{ movimientos, agregarMovimiento }}>{children}</MovimientosContext.Provider>
+        <MovimientosContext.Provider value={{ movimientos, agregarMovimiento, totalIngresos, totalGastos, balance }}>
+            {children}
+        </MovimientosContext.Provider>
     );
 }
 

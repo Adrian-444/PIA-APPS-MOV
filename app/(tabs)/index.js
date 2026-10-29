@@ -4,27 +4,20 @@ import { Button, Card, Text } from "react-native-paper";
 import MovimientoCard from "../../components/MovimientoCard";
 import TotalCard from "../../components/TotalCard";
 import { useMovimientos } from "../../context/MovimientosContext";
+import { colores } from "../../constants/colores";
 
 export default function Inicio() {
-    const { movimientos } = useMovimientos();
+    const { movimientos, totalIngresos, totalGastos, balance } = useMovimientos();
 
-    // Sumamos solo los movimientos de cada tipo
-    const totalIngresos = movimientos
-        .filter((m) => m.tipo === "ingreso")
-        .reduce((suma, m) => suma + m.cantidad, 0);
-    const totalGastos = movimientos
-        .filter((m) => m.tipo === "gasto")
-        .reduce((suma, m) => suma + m.cantidad, 0);
-    const balance = totalIngresos - totalGastos;
-
-    // Ordenamos por fecha (más reciente primero) y tomamos los últimos 5
     const ultimos = [...movimientos].sort((a, b) => b.fecha.localeCompare(a.fecha)).slice(0, 5);
 
     return (
         <ScrollView style={styles.container} contentContainerStyle={styles.contenido}>
             <Card style={styles.balance}>
                 <Card.Content>
-                    <Text variant="labelLarge" style={styles.textoBalance}>Balance</Text>
+                    <Text variant="labelLarge" style={styles.textoBalance}>
+                        Balance
+                    </Text>
                     <Text variant="displaySmall" style={styles.textoBalance}>
                         ${balance.toLocaleString("es-MX")}
                     </Text>
@@ -32,12 +25,14 @@ export default function Inicio() {
             </Card>
 
             <View style={styles.fila}>
-                <TotalCard titulo="Ingresos" cantidad={totalIngresos} color="#2E7D32" />
-                <TotalCard titulo="Gastos" cantidad={totalGastos} color="#C62828" />
+                <TotalCard titulo="Ingresos" cantidad={totalIngresos} color={colores.ingreso} />
+                <TotalCard titulo="Gastos" cantidad={totalGastos} color={colores.gasto} />
             </View>
 
-            <Text variant="titleMedium" style={styles.subtitulo}>Últimos movimientos</Text>
-            {ultimos.map((m) => (
+            <Text variant="titleMedium" style={styles.subtitulo}>
+                Últimos movimientos
+            </Text>
+            {ultimos.map(m => (
                 <MovimientoCard key={m.id} movimiento={m} />
             ))}
 
@@ -51,13 +46,13 @@ export default function Inicio() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#F7F5FA",
+        backgroundColor: colores.fondo,
     },
     contenido: {
         padding: 16,
     },
     balance: {
-        backgroundColor: "#6750A4",
+        backgroundColor: colores.principal,
         marginBottom: 12,
     },
     textoBalance: {

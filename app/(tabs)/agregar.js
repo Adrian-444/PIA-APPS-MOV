@@ -6,6 +6,7 @@ import { Button, Chip, HelperText, SegmentedButtons, Text, TextInput } from "rea
 import { useMovimientos } from "../../context/MovimientosContext";
 import categorias from "../../data/categorias.json";
 import { fechaDeHoy } from "../../utils/fechas";
+import { colores } from "../../constants/colores";
 
 export default function Agregar() {
     const { agregarMovimiento } = useMovimientos();
@@ -17,9 +18,9 @@ export default function Agregar() {
     const [ticket, setTicket] = useState(null);
     const [error, setError] = useState("");
 
-    const cambiarTipo = (nuevoTipo) => {
+    const cambiarTipo = nuevoTipo => {
         setTipo(nuevoTipo);
-        setCategoria(""); // las categorías cambian según el tipo
+        setCategoria("");
     };
 
     const elegirDeGaleria = async () => {
@@ -64,7 +65,6 @@ export default function Agregar() {
             ticket,
         });
 
-        // Limpiamos el formulario y regresamos a Inicio
         setCantidad("");
         setCategoria("");
         setEstablecimiento("");
@@ -75,7 +75,9 @@ export default function Agregar() {
 
     return (
         <ScrollView style={styles.container} contentContainerStyle={styles.contenido}>
-            <Text variant="labelLarge" style={styles.etiqueta}>Tipo</Text>
+            <Text variant="labelLarge" style={styles.etiqueta}>
+                Tipo
+            </Text>
             <SegmentedButtons
                 value={tipo}
                 onValueChange={cambiarTipo}
@@ -95,9 +97,11 @@ export default function Agregar() {
                 style={styles.input}
             />
 
-            <Text variant="labelLarge" style={styles.etiqueta}>Categoría</Text>
+            <Text variant="labelLarge" style={styles.etiqueta}>
+                Categoría
+            </Text>
             <View style={styles.chips}>
-                {categorias[tipo].map((c) => (
+                {categorias[tipo].map(c => (
                     <Chip
                         key={c.nombre}
                         icon={c.icono}
@@ -118,7 +122,9 @@ export default function Agregar() {
                 style={styles.input}
             />
 
-            <Text variant="labelLarge" style={styles.etiqueta}>Ticket (opcional)</Text>
+            <Text variant="labelLarge" style={styles.etiqueta}>
+                Ticket (opcional)
+            </Text>
             <View style={styles.fila}>
                 <Button mode="outlined" icon="image" onPress={elegirDeGaleria} style={styles.botonTicket}>
                     Galería
@@ -130,7 +136,9 @@ export default function Agregar() {
             {ticket && (
                 <View>
                     <Image source={{ uri: ticket }} style={styles.ticket} />
-                    <Button icon="close" onPress={() => setTicket(null)}>Quitar ticket</Button>
+                    <Button icon="close" onPress={() => setTicket(null)}>
+                        Quitar ticket
+                    </Button>
                 </View>
             )}
 
@@ -148,7 +156,7 @@ export default function Agregar() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#F7F5FA",
+        backgroundColor: colores.fondo,
     },
     contenido: {
         padding: 16,
