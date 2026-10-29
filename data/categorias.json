@@ -1,0 +1,17 @@
+{
+    "gasto": [
+        { "nombre": "Comida", "icono": "food" },
+        { "nombre": "Servicios", "icono": "flash" },
+        { "nombre": "Transporte", "icono": "car" },
+        { "nombre": "Entretenimiento", "icono": "movie-open" },
+        { "nombre": "Viajes", "icono": "airplane" },
+        { "nombre": "Otros", "icono": "dots-horizontal" }
+    ],
+    "ingreso": [
+        { "nombre": "Nómina", "icono": "briefcase" },
+        { "nombre": "Freelance", "icono": "laptop" },
+        { "nombre": "Abono", "icono": "bank-transfer-in" },
+        { "nombre": "Aguinaldo", "icono": "gift" },
+        { "nombre": "Otros", "icono": "dots-horizontal" }
+    ]
+}

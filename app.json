@@ -1,0 +1,49 @@
+{
+  "expo": {
+    "name": "Cuentas Claras",
+    "slug": "cuentas-claras",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "package": "com.adrian444.cuentasclaras"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Cuentas Claras usa tus fotos para guardar el ticket de un gasto.",
+          "cameraPermission": "Cuentas Claras usa la cámara para tomar foto del ticket de un gasto.",
+          "microphonePermission": false
+        }
+      ],
+      "expo-font"
+    ],
+    "scheme": "cuentasclaras",
+    "extra": {
+      "router": {
+        "asyncRoutes": {
+          "web": true
+        }
+      },
+      "eas": {
+        "projectId": "f014fdbe-e40c-4a56-a954-37b4ef593786"
+      }
+    },
+    "owner": "adrian-444"
+  }
+}
